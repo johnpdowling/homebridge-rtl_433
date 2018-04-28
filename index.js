@@ -103,7 +103,7 @@ RTL433Platform.prototype.receivedData = function(data) {
     Array.prototype.push.apply(this.receivedData, data);
     var newLine = 0x0A;
     var newLinePosn = this.receivedData.indexOf(newLine);
-    if(newLinePosn) >= 0)
+    if(newLinePosn >= 0)
     {
       var message = this.receivedData.slice(0, newLinePosn);
       this.receivedData = this.receivedData.slice(newLinePosn);
