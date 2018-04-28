@@ -36,7 +36,7 @@ function RTL433Platform(log, config, api) {
   
   var protocol;
   for (protocol of this.protocols) {
-    Array.prototype.push.apply(this.cmdFlags, ['-R, protocol]);
+    Array.prototype.push.apply(this.cmdFlags, ['-R', protocol]);
   }
   
   if (typeof(config.aliases) !== "undefined" && config.aliases !== null) {
