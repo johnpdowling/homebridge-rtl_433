@@ -25,7 +25,7 @@ function RTL433Platform(log, config, api) {
   this.log = log;
   this.config = config;
   this.accessories = [];
-  this.cmdFlags = [];
+  this.cmdFlags = ['-F', 'json', '-d', this.device];
   
   this.protocols = [ 73 ];
   this.device = config['device'] || "RTL2838";
@@ -34,22 +34,19 @@ function RTL433Platform(log, config, api) {
     this.protocols = config.protocols;
   }
   
-  Array.prototype.push.apply(this.cmdFlags, ['-F', 'json', '-d', this.device]);
   var protocol;
   for (protocol of this.protocols) {
-    log("Adding protocol ", protocol);
-    var proto = ['-R', protocol];
-    Array.prototype.push.apply(this.cmdFlags, proto);
+    Array.prototype.push.apply(this.cmdFlags, ['-R, protocol]);
   }
   
   if (typeof(config.aliases) !== "undefined" && config.aliases !== null) {
     this.aliases = config.aliases;
   }
-  log("Waiting for Launch...");
   if (api) {
       this.api = api;
       this.api.on('didFinishLaunching', this.didFinishLaunching.bind(this));
   }
+  log("Waiting for Launch...");
 }
 
 // Function invoked when homebridge tries to restore cached accessory.
@@ -89,8 +86,7 @@ RTL433Platform.prototype.configurationRequestHandler = function(context, request
 }
 
 RTL433Platform.prototype.didFinishLaunching = function() {
-  log("RTL_433 Ready to Go...");
-  var self = this;
+  this.log("RTL_433 Ready to Go...");
   this.receiveBuffer = [];
   this.startAndListen();
 }
