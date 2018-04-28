@@ -101,6 +101,7 @@ RTL433Platform.prototype.receivedData = function(data) {
   this.log("Data! ", bin2string(data));
   try{
     Array.prototype.push.apply(this.receivedData, data);
+    this.log("Buffer: ", bin2string(this.receivedData));	
     var newLine = 0x0A;
     var newLinePosn = this.receivedData.indexOf(newLine);
     if(newLinePosn >= 0)
