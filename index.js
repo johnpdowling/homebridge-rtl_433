@@ -35,8 +35,10 @@ function RTL433Platform(log, config, api) {
   
   this.cmdFlags = ['-F', 'json', '-d', this.device];
   this.protocols.forEach(function(protocol) {
-    this.cmdFlags.pushValues('-R');
-    this.cmdFlags.pushValues(protocol);
+    Array.prototype.push.apply(this.cmdFlags, '-R');
+    Array.prototype.push.apply(this.cmdFlags, protocol);
+    //this.cmdFlags.pushValues('-R');
+    //this.cmdFlags.pushValues(protocol);
   });
   
   if (typeof(config.aliases) !== "undefined" && config.aliases !== null) {
@@ -101,6 +103,7 @@ RTL433Platform.prototype.startAndListen = function() {
 RTL433Platform.prototype.receivedData = function(data) {
   this.log("Data! ", data);
   try{
+    Array.prototype.push.apply(this.receivedData, data);
     var received = JSON.parse(data);
     var name = received.id + "_" + received.model.replace(' ', '_');
     this.log("Got name: ", name);
