@@ -98,7 +98,7 @@ RTL433Platform.prototype.startAndListen = function() {
 }
 
 RTL433Platform.prototype.receivedData = function(data) {
-  this.log("Data! ", data.ToString());
+  this.log("Data! ", bin2string(data));
   try{
     Array.prototype.push.apply(this.receivedData, data);
     var newLine = 0x0A;
@@ -107,8 +107,8 @@ RTL433Platform.prototype.receivedData = function(data) {
     {
       this.log("Message popped!");
       var message = this.receivedData.slice(0, newLinePosn);
-      this.receivedData = this.receivedData.slice(newLinePosn);
-      var received = JSON.parse(data);
+      this.receivedData = this.receivedData.slice(newLinePosn + 1);
+      var received = JSON.parse(bin2string(message));
       var name = received.id + "_" + received.model.replace(' ', '_');
       this.log("Got name: ", name);
     }
@@ -179,4 +179,12 @@ RTL433Platform.prototype.addThermoAccessory = function(thermoData) {
 
 function roundInt(string) {
   return Math.round(parseFloat(string) * 10) / 10;
+}
+
+function bin2string(array){
+	var result = "";
+	for(var i = 0; i < array.length; ++i){
+		result+= (String.fromCharCode(array[i]));
+	}
+	return result;
 }
