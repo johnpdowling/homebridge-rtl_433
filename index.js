@@ -92,7 +92,7 @@ RTL433Platform.prototype.didFinishLaunching = function() {
 }
 
 RTL433Platform.prototype.startAndListen = function() {
-  this.log("Starting RTL_433 Process...");
+  this.log("Starting RTL_433 Process...", this.cmdFlags);
   this.child = spawn('rtl_433', this.cmdFlags);
   this.child.stdout.on('data', this.receivedData.bind(this));
 }
