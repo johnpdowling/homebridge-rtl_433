@@ -87,6 +87,7 @@ RTL433Platform.prototype.configurationRequestHandler = function(context, request
 
 RTL433Platform.prototype.didFinishLaunching = function() {
   var self = this;
+  this.receiveBuffer = [];
   this.startAndListen();
 }
 
@@ -126,7 +127,7 @@ RTL433Platform.prototype.addThermoAccessory = function(thermoData) {
 
     this.log("Adding Thermo Device:", accessoryName, displayName);
     accessory.reachable = true;
-    accessory.context.model = "Kegbot Thermo";
+    accessory.context.model = "RTL433 Thermo";
     accessory.context.name = accessoryName;
     accessory.context.displayName = displayName;
 
@@ -138,9 +139,9 @@ RTL433Platform.prototype.addThermoAccessory = function(thermoData) {
       });
     
     accessory.getService(Service.AccessoryInformation)
-      .setCharacteristic(Characteristic.Manufacturer, "Kegbot")
-      .setCharacteristic(Characteristic.Model, "Kegbot Thermo")
-      .setCharacteristic(Characteristic.SerialNumber, "kb." + accessoryName)
+      .setCharacteristic(Characteristic.Manufacturer, "RTL433")
+      .setCharacteristic(Characteristic.Model, "RTL433 Thermo")
+      .setCharacteristic(Characteristic.SerialNumber, "rtl." + accessoryName)
       .setCharacteristic(Characteristic.FirmwareRevision, require('./package.json').version);
     
     accessory.on('identify', function(paired, callback) {
@@ -150,7 +151,7 @@ RTL433Platform.prototype.addThermoAccessory = function(thermoData) {
     
     accessory.log = this.log;
     this.accessories[accessoryName] = accessory;
-    this.api.registerPlatformAccessories("homebridge-kegbot", "Kegbot", [accessory]);
+    this.api.registerPlatformAccessories("homebridge-rtl_433", "rtl_433", [accessory]);
   }
   else {
     this.log("Skipping %s", accessoryName);
