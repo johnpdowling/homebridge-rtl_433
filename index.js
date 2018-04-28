@@ -35,10 +35,9 @@ function RTL433Platform(log, config, api) {
   
   this.cmdFlags = ['-F', 'json', '-d', this.device];
   this.protocols.forEach(function(protocol) {
-    Array.prototype.push.apply(this.cmdFlags, ['-R']);
-    Array.prototype.push.apply(this.cmdFlags, [protocol]);
-    //this.cmdFlags.pushValues('-R');
-    //this.cmdFlags.pushValues(protocol);
+    log("Adding protocol ", protocol);
+    this.cmdFlags.push('-R');
+    this.cmdFlags.push(protocol);
   });
   
   if (typeof(config.aliases) !== "undefined" && config.aliases !== null) {
