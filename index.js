@@ -40,7 +40,7 @@ function RTL433Platform(log, config, api) {
     log("Adding protocol ", protocol);
     var proto = ['-R', protocol];
     Array.prototype.push.apply(this.cmdFlags, proto);
-  });
+  }
   
   if (typeof(config.aliases) !== "undefined" && config.aliases !== null) {
     this.aliases = config.aliases;
