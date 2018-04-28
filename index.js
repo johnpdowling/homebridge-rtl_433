@@ -25,7 +25,6 @@ function RTL433Platform(log, config, api) {
   this.log = log;
   this.config = config;
   this.accessories = [];
-  this.cmdFlags = [];
   
   this.protocols = [ 73 ];
   this.device = config['device'] || "RTL2838";
@@ -34,11 +33,10 @@ function RTL433Platform(log, config, api) {
     this.protocols = config.protocols;
   }
   
-  this.cmdFlags.push.apply(this.cmdFlags,['-F', 'json', '-d', this.device]);
+  this.cmdFlags = ['-F', 'json', '-d', this.device];
   this.protocols.forEach(function(protocol) {
     log("Adding protocol ", protocol);
-    this.cmdFlags.push('-R');
-    this.cmdFlags.push(protocol);
+    this.cmdFlags.push.apply(this.cmdFlags, ['-R', protocol]);
   });
   
   if (typeof(config.aliases) !== "undefined" && config.aliases !== null) {
