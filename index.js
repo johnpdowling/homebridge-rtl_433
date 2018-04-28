@@ -101,9 +101,16 @@ RTL433Platform.prototype.receivedData = function(data) {
   this.log("Data! ", data);
   try{
     Array.prototype.push.apply(this.receivedData, data);
-    var received = JSON.parse(data);
-    var name = received.id + "_" + received.model.replace(' ', '_');
-    this.log("Got name: ", name);
+    var newLine = 0x0A;
+    var newLinePosn = this.receivedData.indexOf(newLine);
+    if(newLinePosn) >= 0)
+    {
+      var message = this.receivedData.slice(0, newLinePosn);
+      this.receivedData = this.receivedData.slice(newLinePosn);
+      var received = JSON.parse(data);
+      var name = received.id + "_" + received.model.replace(' ', '_');
+      this.log("Got name: ", name);
+    }
   }
   catch(err) {
     //eat the error for now
