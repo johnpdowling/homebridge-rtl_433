@@ -100,15 +100,15 @@ RTL433Platform.prototype.startAndListen = function() {
 RTL433Platform.prototype.receivedData = function(data) {
   this.log("Data! ", bin2string(data));
   try{
-    Array.prototype.push.apply(this.receivedData, data);
-    this.log("Buffer: ", bin2string(this.receivedData));	
+    Array.prototype.push.apply(this.receiveBuffer, data);
+    this.log("Buffer: ", bin2string(this.receiveBuffer));	
     var newLine = 0x0A;
-    var newLinePosn = this.receivedData.indexOf(newLine);
+    var newLinePosn = this.receiveBuffer.indexOf(newLine);
     if(newLinePosn >= 0)
     {
       this.log("Message popped!");
-      var message = this.receivedData.slice(0, newLinePosn);
-      this.receivedData = this.receivedData.slice(newLinePosn + 1);
+      var message = this.receiveBuffer.slice(0, newLinePosn);
+      this.receiveBuffer = this.receiveBuffer.slice(newLinePosn + 1);
       var received = JSON.parse(bin2string(message));
       var name = received.id + "_" + received.model.replace(' ', '_');
       this.log("Got name: ", name);
