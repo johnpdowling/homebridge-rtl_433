@@ -98,13 +98,14 @@ RTL433Platform.prototype.startAndListen = function() {
 }
 
 RTL433Platform.prototype.receivedData = function(data) {
-  this.log("Data! ", data);
+  this.log("Data! ", data.ToString());
   try{
     Array.prototype.push.apply(this.receivedData, data);
     var newLine = 0x0A;
     var newLinePosn = this.receivedData.indexOf(newLine);
     if(newLinePosn >= 0)
     {
+      this.log("Message popped!");
       var message = this.receivedData.slice(0, newLinePosn);
       this.receivedData = this.receivedData.slice(newLinePosn);
       var received = JSON.parse(data);
