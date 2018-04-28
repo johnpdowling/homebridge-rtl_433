@@ -42,7 +42,7 @@ function RTL433Platform(log, config, api) {
   if (typeof(config.aliases) !== "undefined" && config.aliases !== null) {
     this.aliases = config.aliases;
   }
-  
+  log("Waiting for Launch...");
   if (api) {
       this.api = api;
       this.api.on('didFinishLaunching', this.didFinishLaunching.bind(this));
@@ -86,6 +86,7 @@ RTL433Platform.prototype.configurationRequestHandler = function(context, request
 }
 
 RTL433Platform.prototype.didFinishLaunching = function() {
+  log("RTL_433 Ready to Go...");
   var self = this;
   this.receiveBuffer = [];
   this.startAndListen();
