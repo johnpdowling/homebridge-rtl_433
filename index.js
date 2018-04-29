@@ -111,7 +111,20 @@ RTL433Platform.prototype.receivedData = function(data) {
       this.receiveBuffer = this.receiveBuffer.slice(newLinePosn + 1);
       var received = JSON.parse(bin2string(message));
       var name = received.id + "_" + received.model.replace(' ', '_');
-      this.log("Got name: ", name);
+      if(name in this.accessories)
+      {
+         this.accessories[name].getService(Service.TemperatureSensor).
+              getCharacteristic(Characteristic.CurrentTemperature).updateValue(received.temperature_C);
+	 if(this.accessories[name].getService(Service.HumiditySensor))
+	 {
+	    this.accessories[name].getService(Service.HumiditySensor).
+	      getCharacteristic(Characteristic.CurrentRelativeHumidity).updateValue(received.humidity);
+	 }
+      }
+      else
+      {
+	 this.addThermoAccessory(received);
+      }
     }
   }
   catch(err) {
@@ -124,8 +137,8 @@ RTL433Platform.prototype.addThermoAccessory = function(thermoData) {
   this.log("Add Thermo Accessory");
   var platform = this;
   var uuid;
-  var accessoryName = thermo.sensor_name;
-
+  var accessoryName = thermoData.id + "_" + thermoData.model.replace(' ', '_');
+      
   uuid = UUIDGen.generate(accessoryName);
 
   if(!this.accessories[accessoryName])
@@ -149,6 +162,15 @@ RTL433Platform.prototype.addThermoAccessory = function(thermoData) {
         maxValue: 100
       });
     
+    if(thermoData.humidity)
+    {
+	accessory.addService(Service.TemperatureSensor, displayName)
+      		 .getCharacteristic(Characteristic.CurrentTemperature)
+      		 .setProps({
+      			     minValue: 0,
+        		     maxValue: 100
+      			   });
+    }
     accessory.getService(Service.AccessoryInformation)
       .setCharacteristic(Characteristic.Manufacturer, "RTL433")
       .setCharacteristic(Characteristic.Model, "RTL433 Thermo")
