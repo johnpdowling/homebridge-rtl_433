@@ -164,7 +164,7 @@ RTL433Platform.prototype.addThermoAccessory = function(thermoData) {
     
     if(thermoData.humidity)
     {
-	accessory.addService(Service.TemperatureSensor, displayName)
+	accessory.addService(Service.HumiditySensor, displayName)
       		 .getCharacteristic(Characteristic.CurrentRelativeHumidity)
       		 .setProps({
       			     minValue: 0,
