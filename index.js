@@ -76,6 +76,17 @@ RTL433Platform.prototype.configureAccessory = function(accessory) {
   accessory.log = this.log;
   
   var name = accessory.context.name;
+  var displayName = accessory.getService(Service.AccessoryInformation).
+              		      getCharacteristic(Characteristic.Name).Value;
+  if(this.aliases[name])
+  {
+	if(this.aliases[name] != displayName)
+	{
+		this.api.unregisterPlatformAccessories("homebridge-rtl_433", "rtl_433", [accessory]);
+		return;
+	}
+  }
+	
   this.accessories[name] = accessory;
 }
 
