@@ -74,7 +74,7 @@ RTL433Platform.prototype.configureAccessory = function(accessory) {
   //  accessory.log = this.log;
   //}
   accessory.log = this.log;
-  
+  /*
   var name = accessory.context.name;
   var displayName = accessory.getService(Service.AccessoryInformation).
               		      getCharacteristic(Characteristic.Name).Value;
@@ -86,7 +86,7 @@ RTL433Platform.prototype.configureAccessory = function(accessory) {
 		return;
 	}
   }
-	
+  */	
   this.accessories[name] = accessory;
 }
 
@@ -124,6 +124,17 @@ RTL433Platform.prototype.receivedData = function(data) {
       var name = received.id + "_" + received.model.replace(' ', '_');
       if(name in this.accessories)
       {
+  	 var displayName = this.accessories[name].getService(Service.AccessoryInformation).
+              		      getCharacteristic(Characteristic.Name).Value;
+	 if(this.aliases[name] != displayName)
+	 {
+	    //remove accessory
+	    var accessory = this.accessories[name];
+	    var index = this.accessories.indexOf(accessory);
+	    this.api.unregisterPlatformAccessories("homebridge-rtl_433", "rtl_433", [accessory]);
+	    this.accessories.splice(index, 1);
+	    return;
+	 }
          this.accessories[name].getService(Service.TemperatureSensor).
               getCharacteristic(Characteristic.CurrentTemperature).updateValue(received.temperature_C);
 	 if(this.accessories[name].getService(Service.HumiditySensor))
