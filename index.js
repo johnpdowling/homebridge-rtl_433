@@ -131,7 +131,8 @@ RTL433Platform.prototype.receivedData = function(data) {
 	    //remove accessory
 	    var accessory = this.accessories[name];
 	    var index = this.accessories.indexOf(accessory);
-	    this.api.unregisterPlatformAccessories("homebridge-rtl_433", "rtl_433", [accessory]);
+	    this.log("error! ", this.aliases.name, " ", displayName);
+	    this.api.unregisterPlatformAccessories("homebridge-rtl_433", "rtl_433", [this.accessories[name]]);
 	    this.accessories.splice(index, 1);
 	    return;
 	 }
