@@ -126,7 +126,7 @@ RTL433Platform.prototype.receivedData = function(data) {
       {
   	 var displayName = this.accessories[name].getService(Service.TemperatureSensor).
               		      getCharacteristic(Characteristic.Name).getValue();
-	 if(this.aliases[name] != displayName && displayName !=== "undefined")
+	 if(this.aliases[name] != displayName && displayName !== "undefined")
 	 {
 	    //remove accessory
 	    var index = this.accessories.indexOf(this.accessories[name]);
