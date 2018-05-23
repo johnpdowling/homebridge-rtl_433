@@ -126,11 +126,10 @@ RTL433Platform.prototype.receivedData = function(data) {
       {
   	 var displayName = this.accessories[name].getService(Service.TemperatureSensor).
               		      getCharacteristic(Characteristic.Name).getValue();
-	 if(this.aliases[name] != displayName)
+	 if(this.aliases[name] != displayName && displayName !=== "undefined")
 	 {
 	    //remove accessory
-	    var accessory = this.accessories[name];
-	    var index = this.accessories.indexOf(accessory);
+	    var index = this.accessories.indexOf(this.accessories[name]);
 	    this.log("error!", this.aliases[name], displayName);
 	    this.api.unregisterPlatformAccessories("homebridge-rtl_433", "rtl_433", [this.accessories[name]]);
 	    this.accessories.splice(index, 1);
