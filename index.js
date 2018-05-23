@@ -124,7 +124,7 @@ RTL433Platform.prototype.receivedData = function(data) {
       var name = received.id + "_" + received.model.replace(' ', '_');
       if(name in this.accessories)
       {
-  	 var displayName = this.accessories[name].getService(Service.AccessoryInformation).
+  	 var displayName = this.accessories[name].getService(Service.TemperatureSensor).
               		      getCharacteristic(Characteristic.Name).getValue();
 	 if(this.aliases[name] != displayName)
 	 {
