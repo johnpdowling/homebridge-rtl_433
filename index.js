@@ -125,17 +125,18 @@ RTL433Platform.prototype.receivedData = function(data) {
       if(name in this.accessories)
       {
   	 var displayName = this.accessories[name].getService(Service.AccessoryInformation).
-              		      getCharacteristic(Characteristic.Name).Value;
+              		      getCharacteristic(Characteristic.Name).getValue();
 	 if(this.aliases[name] != displayName)
 	 {
 	    //remove accessory
 	    var accessory = this.accessories[name];
 	    var index = this.accessories.indexOf(accessory);
-	    this.log("error! ", this.aliases.name, " ", displayName);
+	    this.log("error!", this.aliases[name], displayName);
 	    this.api.unregisterPlatformAccessories("homebridge-rtl_433", "rtl_433", [this.accessories[name]]);
 	    this.accessories.splice(index, 1);
 	    return;
 	 }
+	 this.log("dN found", displayName);
          this.accessories[name].getService(Service.TemperatureSensor).
               getCharacteristic(Characteristic.CurrentTemperature).updateValue(received.temperature_C);
 	 if(this.accessories[name].getService(Service.HumiditySensor))
