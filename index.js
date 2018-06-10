@@ -21,6 +21,7 @@ module.exports = function(homebridge) {
 // api may be null if launched from old homebridge version
 function RTL433Platform(log, config, api) {
   log("RTL433Platform Init");
+  return;
   var platform = this;
   this.log = log;
   this.config = config;
